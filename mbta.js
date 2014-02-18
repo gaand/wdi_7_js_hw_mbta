@@ -4,7 +4,11 @@ startingStation,
 endingLine,
 endingStation,
 lines,
-total_distance;
+total_distance,
+start_parkst,
+end_parkst,
+first_stop,
+ending_stop;
 
 startingLine = prompt("Enter the Starting Line: ");
 startingStation = prompt("Enter the Starting Station");
@@ -21,13 +25,19 @@ lines = {
   'orange': ['north station', 'haymarket', 'park st', 'state', 'downtown crossing', 'chinatown', 'back bay', 'forest hills']
 };
 
-var distance_to_park = function(line, stop) {
-	var current_line = lines[line];
-	current_stop = current_line.indexOf(stop);
-	park = current_line.indexOf('park st');
-	return Math.abs(current_stop - park);
-}
 
-total_distance = distance_to_park(startingLine, startingStation) + distance_to_park(endingLine, endingStation);
+var distance_to_park = function(line) {
+	var current_line = lines[line], park = current_line.indexOf('park st');
+	return function(stop) {
+		var current_stop = current_line.indexOf(stop);
+		return Math.abs(current_stop - park);
+	}
+}
+start_parkst = distance_to_park(startingLine);
+end_parkst = distance_to_park(endingLine);
+first_stop = start_parkst(startingStation);
+ending_stop = end_parkst(endingStation);
+
+total_distance = first_stop + ending_stop;
 
 alert("The total number of stops for your travel is " + total_distance + " stops.");
