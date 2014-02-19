@@ -34,7 +34,6 @@ var startingLine,
       startingStation = prompt("Enter the Starting Station" + allStations).trim();
     }while(lines[startingLine].indexOf(startingStation) === -1)
 
-
     do{  
       endingLine = prompt("Enter the Ending Line"+ allLines).trim();
     }while(lines[endingLine] === undefined)
@@ -66,14 +65,17 @@ lines = {
 // returns a function that uses the result of this calculation to
 // find distances
 var calcDistances= function(lines){
-  var distances = {}, 
-  stationDistance,
+  var distances = {}, // value that caches ALL the distances.
   stationNum,
-  stationDistance = function(stationNum, stations){
-   return Math.abs(stationNum - stations.indexOf('park st'));
+  calcStationDistanceToParkSt = function(stationNum, stations){
+    // calculate distance from station to park st on a particular line.
+    return Math.abs(stationNum - stations.indexOf('park st'));
   },
-  toParkSt = function(lineName, station){
-    // get the station index within one line
+  getDistanceToParkSt = function(lineName, station){
+    // retrieve/get the station distance to park st on a 
+    // particular line.
+    // NOTE: this uses the distance previously calculated
+    // and stored/cached in the distances object literal.
     var stationIndex = lines[lineName].indexOf(station);
     // uses the precalculated distances between all stations.
     return distances[lineName][stationIndex]
@@ -81,9 +83,9 @@ var calcDistances= function(lines){
   findDistances = function(startingLine, startingStation, endingLine, endingStation){
     var startToPark, endToPark;
     // starting stop to park st. 
-    startToPark = toParkSt(startingLine, startingStation);
+    startToPark = getDistanceToParkSt(startingLine, startingStation);
     // ending stop to park st.     
-    endToPark = toParkSt(endingLine, endingStation);
+    endToPark = getDistanceToParkSt(endingLine, endingStation);
     return (startToPark + endToPark)
   };
 
@@ -91,16 +93,21 @@ var calcDistances= function(lines){
   for(lineName in lines){
     distances[lineName] = [];
     lineStations = lines[lineName];
+
+    // for each line
     for(stationNum = 0; stationNum < lineStations.length; stationNum++){
-      distances[lineName].push(stationDistance(stationNum,lineStations));
+      // calculate the distance from each station to 
+      // park st.
+      distances[lineName].push(calcStationDistanceToParkSt(stationNum,lineStations));
     }
   }
   console.log('All distances calculated');
 
-  // function that uses calculated distances btw stops.
+  // return a function that uses calculated distances btw stops.
   return findDistances;
 
 };
+
 // This will have calculated all of the distances btw stations
 // and return a function, findDistance, that will have
 // used the cached value of these calculated distances.
