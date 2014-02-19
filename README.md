@@ -1,4 +1,4 @@
-#Title: MBTA Lab
+#Title: MBTA Homework, JavaScript!
 
 ## Objectives:
 - Practice with array operations, intersections, etc., and working with arrays and properties of an object literal.
