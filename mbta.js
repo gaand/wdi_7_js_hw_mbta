@@ -5,6 +5,14 @@
 
   Provides a sandbox, anonymous namespace.
 
+  (function($){
+   // execute the code here
+   // ...
+
+  // 
+  $('.id').hide();
+  })(jQuery);
+
 */
 (function(){
   /*
@@ -60,15 +68,14 @@
       msg += ' from ' + startingLine + ':' + startingStation;
       msg += ' to ' + endingLine + ':' + endingStation; 
       alert(msg);
-    };
-
-  // Create an object literal where each property represents
-  // all the stations on that line.
-  lines = {
-    green: ['haymarket', 'government center', 'park st', 'bolyston', 'arlington', 'copley'],
-    red: ['south station', 'park st', 'kendall', 'central', 'harvard', 'porter', 'davis', 'alewife'],
-    orange: ['north station', 'haymarket', 'park st', 'state', 'downtown crossing', 'chinatown', 'back bay', 'forest hills']
-  };
+    },
+    // Create an object literal where each property represents
+    // all the stations on that line.
+    lines = {
+      green: ['haymarket', 'government center', 'park st', 'bolyston', 'arlington', 'copley'],
+     red: ['south station', 'park st', 'kendall', 'central', 'harvard', 'porter', 'davis', 'alewife'],
+     orange: ['north station', 'haymarket', 'park st', 'state', 'downtown crossing', 'chinatown', 'back bay', 'forest hills']
+   }; // end definition of variables.
 
   // function that calculates all the distances once and only once.
   // returns a function that uses the result of this calculation to
@@ -111,6 +118,7 @@
       }
     }
     console.log('All distances calculated');
+
 
     // return a function that uses calculated distances btw stops.
     return findDistances;
